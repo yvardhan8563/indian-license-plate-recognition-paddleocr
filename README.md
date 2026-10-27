@@ -1,21 +1,73 @@
-# Indian Vehicle License Plate Recognition — Lynkit Computer Vision Assessment
+# Indian License Plate Detection & Recognition
 
-Two Google Colab notebooks compare fine-tuned PaddleOCR PP-OCRv4 and PP-OCRv5 on Indian license plate recognition. The inference notebook also demonstrates a YOLO11n plate detector on full vehicle images.
+### Lynkit — AI/ML Computer Vision Assessment
 
-## Files
-- `PPOCR_License_Plate_Training_Submission.ipynb` — dataset preparation, grouped split, model configuration, pretrained-weight adaptation, fine-tuning and validation logs.
-- `PPOCR_License_Plate_Inference_Submission.ipynb` — OCR batch evaluation, error/confidence analysis, plate detection, cropped-plate OCR, 20-image pipeline sample, and CSV generation.
+## Overview
 
-## Results
+This project implements an **Automatic Number Plate Recognition (ANPR)** pipeline using **YOLO11n, PaddleOCR PP-OCRv4, and PP-OCRv5**.
+
+The system detects license plates from vehicle images, extracts registration numbers, and compares the accuracy and confidence of both OCR models.
+
+## Technologies
+
+Python · PaddleOCR · PaddlePaddle · YOLO11n · OpenCV · PyTorch · Google Colab
+
+## Project Workflow
+
+```text
+Vehicle Image
+     ↓
+YOLO11n Plate Detection
+     ↓
+License Plate Cropping
+     ↓
+PP-OCRv4 / PP-OCRv5
+     ↓
+Recognized Text + Confidence
+     ↓
+Accuracy & Error Analysis
+```
+
+## Dataset & Training
+
+- 1,695 annotated license plate crops
+- Training images: 1,365
+- Validation images: 330
+- OCR fine-tuning: 20 epochs
+- Custom dictionary: A–Z and 0–9
+- Vehicle images and XML annotations used for detection training
+
+## Model Performance
+
 | Metric | PP-OCRv4 | PP-OCRv5 |
 |---|---:|---:|
-| Validation exact-match (330 cropped plates) | 56.67% | 82.12% |
-| Normalized edit similarity | 92.47% | 96.55% |
-| 20-image detection+OCR demonstration exact-match | 45% | 90% |
+| Validation accuracy | 56.67% | **82.12%** |
+| Normalized edit similarity | 92.47% | **96.55%** |
+| Correct predictions (330 images) | 187 | **271** |
+| Full-image demonstration accuracy (20 images) | 45% | **90%** |
 
-The YOLO detector found plates in 20/20 demonstration images. This is not an independent end-to-end benchmark: OCR and detection splits were created independently.
+YOLO detected license plates in all 20 demonstration images.
 
-## Reproduction
-Use Google Colab GPU. The notebooks refer to the original Kaggle Indian vehicle dataset (`archive.zip`) and to a separately saved `PaddleOCR_Indian_Plates_Backup.zip` containing OCR training checkpoints, configs, labels, and cropped images. Upload these when prompted. The YOLO detector checkpoint `best.pt` is not bundled with these notebooks; the inference notebook includes an optional cell to train it from XML annotations. The notebooks preserve recorded outputs, but a full clean-runtime execution has not been independently reverified.
+*Note: The 20-image demonstration is not an independent end-to-end benchmark because the OCR and detector splits were created separately.*
 
-**Limitations:** Saved OCR checkpoints are `.pdparams` training weights; exported Paddle inference artifacts are not demonstrated. CUDA/NCCL compatibility may vary across Colab runtimes.
+## Repository Files
+
+- `PPOCR_License_Plate_Training_Submission.ipynb` — Data preparation, model fine-tuning, and validation.
+- `PPOCR_License_Plate_Inference_Submission.ipynb` — Plate detection, OCR inference, confidence analysis, batch processing, and error visualization.
+
+## How to Run
+
+1. Open the notebooks in Google Colab with GPU enabled.
+2. Install the dependencies using the provided cells.
+3. Provide vehicle images, XML annotations, and required model checkpoints.
+4. Execute the training or inference workflow.
+
+The trained checkpoints are stored separately. Recorded outputs are included, but fresh-runtime execution has not been independently verified.
+
+## Conclusion
+
+**PP-OCRv5 outperformed PP-OCRv4**, achieving 82.12% validation accuracy compared with 56.67%. The project demonstrates license plate detection, recognition, confidence scoring, and model comparison.
+
+---
+
+**Lynkit | AI/ML Computer Vision Skill Assessment**
